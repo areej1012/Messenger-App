@@ -22,6 +22,8 @@
 		C37FB893272E7793004653A0 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37FB892272E7793004653A0 /* Extension.swift */; };
 		C395CB58272FC1E50070F4E0 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = C395CB57272FC1E50070F4E0 /* FacebookLogin */; };
 		C395CB5A272FC1E50070F4E0 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = C395CB59272FC1E50070F4E0 /* FacebookCore */; };
+		C395CB5C272FE12E0070F4E0 /* StyleTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C395CB5B272FE12E0070F4E0 /* StyleTextField.swift */; };
+		C395CB5E273025330070F4E0 /* DatabaseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C395CB5D273025330070F4E0 /* DatabaseManger.swift */; };
 		C3C4767D272AE96B00276A51 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C4767C272AE96B00276A51 /* AppDelegate.swift */; };
 		C3C4767F272AE96B00276A51 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C4767E272AE96B00276A51 /* SceneDelegate.swift */; };
 		C3C47681272AE96B00276A51 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C47680272AE96B00276A51 /* LoginViewController.swift */; };
@@ -59,6 +61,8 @@
 		C3109338272B03000002B917 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		C310933C272B03D90002B917 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C37FB892272E7793004653A0 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		C395CB5B272FE12E0070F4E0 /* StyleTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleTextField.swift; sourceTree = "<group>"; };
+		C395CB5D273025330070F4E0 /* DatabaseManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManger.swift; sourceTree = "<group>"; };
 		C3C47679272AE96B00276A51 /* Messenger App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Messenger App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3C4767C272AE96B00276A51 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3C4767E272AE96B00276A51 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +179,7 @@
 				C3C4767C272AE96B00276A51 /* AppDelegate.swift */,
 				C3C4767E272AE96B00276A51 /* SceneDelegate.swift */,
 				C37FB892272E7793004653A0 /* Extension.swift */,
+				C395CB5D273025330070F4E0 /* DatabaseManger.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -183,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				C3109325272B00240002B917 /* StyleButton.swift */,
+				C395CB5B272FE12E0070F4E0 /* StyleTextField.swift */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -386,6 +392,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C310932E272B01DB0002B917 /* ConversationViewController.swift in Sources */,
+				C395CB5C272FE12E0070F4E0 /* StyleTextField.swift in Sources */,
+				C395CB5E273025330070F4E0 /* DatabaseManger.swift in Sources */,
 				C3C47681272AE96B00276A51 /* LoginViewController.swift in Sources */,
 				C3109330272B026D0002B917 /* NewConversationViewController.swift in Sources */,
 				C3109326272B00240002B917 /* StyleButton.swift in Sources */,

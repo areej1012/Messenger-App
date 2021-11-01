@@ -18,10 +18,21 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var FirstName: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        ImageButton.layer.cornerRadius = ImageButton.frame.height / 2
+        ImageButton.imageView?.layer.cornerRadius = ImageButton.imageView!.frame.width / 2 
         ImageButton.layer.masksToBounds = true
         
-
+        Email.layer.cornerRadius = 12
+        Email.layer.borderWidth = 2
+        Email.layer.borderColor = UIColor.lightGray.cgColor
+        FirstName.layer.cornerRadius = 12
+        FirstName.layer.borderWidth = 2
+        FirstName.layer.borderColor = UIColor.lightGray.cgColor
+        LastName.layer.cornerRadius = 12
+        LastName.layer.borderWidth = 2
+        LastName.layer.borderColor = UIColor.lightGray.cgColor
+        password.layer.cornerRadius = 12
+        password.layer.borderWidth = 2
+        password.layer.borderColor = UIColor.lightGray.cgColor
         // Do any additional setup after loading the view.
     }
 
@@ -57,7 +68,7 @@ class RegisterViewController: UIViewController {
     }
     
     @IBAction func addNewUser(_ sender: Any) {
-     
+     print("Cilcked")
         // Validate the fields
         let error = validateFields()
         if error != nil {
@@ -69,12 +80,14 @@ class RegisterViewController: UIViewController {
         let lastname = LastName.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let email = Email.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let password = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-    
-            // create new user
+        
+
+            // create new user, so if the user enter email it's already exists
+           // so will never create account in firebase Auth & firestore & Database
             Auth.auth().createUser(withEmail: email, password: password){
                 reuslt, error in
                 if error != nil {
-                    self.showError("Error creating user")
+                    self.showError("Your account is already exists")
                 }
                 else if let reuslt = reuslt {
                     // store the user in firestore with his info
@@ -82,7 +95,10 @@ class RegisterViewController: UIViewController {
                     
                     do{
                         let _ = try Firestore.firestore().collection("User").document(reuslt.user.uid).setData(from: newUser)
-                        UserDefaults.standard.setValue(reuslt.user.uid, forKey: "uid")
+                        //create database for the user
+                        
+                        DatabaseManger.shared.insertUser(with: ChatAppUser(firstName: newUser.FirstName, lastName: newUser.LastName, emailAddress: newUser.Email))
+                       
                         // Transition to the home screen
                             self.transitionToHome()
                     }
@@ -99,9 +115,6 @@ class RegisterViewController: UIViewController {
     }
     
        func transitionToHome() {
-           
-        UserDefaults.standard.set(true, forKey: "logged_in")
-        UserDefaults.standard.synchronize()
         let des = storyboard?.instantiateViewController(identifier: "Tab") as! UITabBarController
         des.modalPresentationStyle = .fullScreen
         present(des, animated: false, completion: nil)

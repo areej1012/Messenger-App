@@ -18,7 +18,7 @@ class LoginViewController: UIViewController  {
     
     @IBOutlet weak var error: UILabel!
     @IBOutlet weak var email: UITextField!
-    @IBOutlet weak var GoogleButton: UIButton!
+   
     @IBOutlet weak var password: UITextField!
     
     @IBOutlet weak var facebook: UIButton!
@@ -26,7 +26,14 @@ class LoginViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-      
+        email.layer.cornerRadius = 12
+        email.layer.borderWidth = 2
+        email.layer.borderColor = UIColor.lightGray.cgColor
+        password.layer.cornerRadius = 12
+        password.layer.borderWidth = 2
+        password.layer.borderColor = UIColor.lightGray.cgColor
+        
+        
                 
     }
 
@@ -46,11 +53,13 @@ class LoginViewController: UIViewController  {
                 return
             }
             let user = result.user
+            print("user \(user)")
+            self.dismiss(animated: false, completion: nil)
            
         })
 
  
-        dismiss(animated: false, completion: nil)
+       
         
         
         
@@ -83,7 +92,15 @@ class LoginViewController: UIViewController  {
                             return
                         }
                 if let user = user {
-                    
+                    DatabaseManger.shared.userExists(with: user.user.uid, completion: { [weak self]
+                        exists in
+                        guard !exists else {
+                            //is exists
+                            return
+                            
+                        }
+                        DatabaseManger.shared.insertUser(with: ChatAppUser(firstName: user.user.displayName!, lastName: "", emailAddress: user.user.email!))
+                    })
                     self.dismiss(animated: false, completion: nil)
 
                 }
