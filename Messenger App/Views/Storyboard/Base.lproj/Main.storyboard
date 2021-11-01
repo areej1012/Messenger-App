@@ -8,16 +8,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Login View Controller-->
+        <!--Messenger-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="Login" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Messenger_App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hhq-ju-fXB">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9fW-mu-9Lv">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="810"/>
@@ -29,7 +29,7 @@
                                                 <rect key="frame" x="8" y="332" width="398" height="358"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email Adress" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cU7-6d-rKo">
-                                                        <rect key="frame" x="0.0" y="0.0" width="398" height="38.333333333333336"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="398" height="47.333333333333336"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <userDefinedRuntimeAttributes>
@@ -39,7 +39,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wPd-i9-ngI">
-                                                        <rect key="frame" x="0.0" y="53.333333333333314" width="398" height="38.333333333333343"/>
+                                                        <rect key="frame" x="0.0" y="62.333333333333314" width="398" height="47"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                         <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                         <userDefinedRuntimeAttributes>
@@ -49,13 +49,13 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMB-HF-4tR">
-                                                        <rect key="frame" x="0.0" y="106.66666666666663" width="398" height="38.333333333333343"/>
+                                                        <rect key="frame" x="0.0" y="124.33333333333336" width="398" height="47.333333333333329"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" systemColor="systemRedColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uBk-TQ-tnH" customClass="ActualGradientButton" customModule="Messenger_App" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="160" width="398" height="38"/>
+                                                        <rect key="frame" x="0.0" y="186.66666666666663" width="398" height="47"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                         <state key="normal" title="Log In">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -70,7 +70,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OWv-i5-OAa" customClass="ActualGradientButton" customModule="Messenger_App" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="213" width="398" height="38.333333333333343"/>
+                                                        <rect key="frame" x="0.0" y="248.66666666666666" width="398" height="47.333333333333343"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                         <state key="normal" title="Register">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -85,33 +85,16 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MSe-AM-Jsu">
-                                                        <rect key="frame" x="0.0" y="266.33333333333337" width="398" height="38.333333333333314"/>
+                                                        <rect key="frame" x="0.0" y="311" width="398" height="47"/>
                                                         <color key="backgroundColor" systemColor="linkColor"/>
                                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="18"/>
                                                         <inset key="titleEdgeInsets" minX="50" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                         <state key="normal" title="Continue with Facebook" image="facebook (1)">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="npJ-3W-Hzp">
-                                                        <rect key="frame" x="0.0" y="319.66666666666663" width="398" height="38.333333333333314"/>
-                                                        <inset key="titleEdgeInsets" minX="120" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                        <state key="normal" image="Google">
-                                                            <attributedString key="attributedTitle">
-                                                                <fragment content="Sign in">
-                                                                    <attributes>
-                                                                        <color key="NSColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        <font key="NSFont" metaFont="system" size="18"/>
-                                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                    </attributes>
-                                                                </fragment>
-                                                            </attributedString>
-                                                        </state>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="layer.shadowColor">
-                                                                <color key="value" systemColor="systemGray3Color"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="signinFacebook:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wdc-IG-wd4"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -148,9 +131,12 @@
                             <constraint firstItem="Hhq-ju-fXB" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="uVg-FW-CAx"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="c7T-Dz-4od"/>
+                    <navigationItem key="navigationItem" title="Messenger" id="c7T-Dz-4od"/>
                     <connections>
-                        <outlet property="GoogleButton" destination="npJ-3W-Hzp" id="MYw-20-zby"/>
+                        <outlet property="email" destination="cU7-6d-rKo" id="SFz-RT-tWS"/>
+                        <outlet property="error" destination="RMB-HF-4tR" id="Iz8-rX-CHO"/>
+                        <outlet property="facebook" destination="MSe-AM-Jsu" id="LM1-yf-oPm"/>
+                        <outlet property="password" destination="wPd-i9-ngI" id="Rkj-xT-Ane"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -162,14 +148,14 @@
             <objects>
                 <viewController id="uwg-zO-Goh" customClass="RegisterViewController" customModule="Messenger_App" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MCw-qN-cHP">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v8P-uN-ID5">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2uy-27-VDh">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="766"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="690.66666666666663"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="AAv-tT-VwO">
                                                 <rect key="frame" x="10" y="258" width="394" height="375"/>
@@ -213,7 +199,7 @@
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qHp-OF-QEn">
-                                                <rect key="frame" x="108" y="34" width="198" height="179"/>
+                                                <rect key="frame" x="128" y="72" width="158" height="139"/>
                                                 <state key="normal" image="profile2"/>
                                                 <connections>
                                                     <action selector="UploadImageOfUser:" destination="uwg-zO-Goh" eventType="touchUpInside" id="9Y2-xk-YyQ"/>
@@ -223,12 +209,12 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="AAv-tT-VwO" secondAttribute="trailing" constant="10" id="9vs-o2-UBP"/>
-                                            <constraint firstItem="qHp-OF-QEn" firstAttribute="leading" secondItem="2uy-27-VDh" secondAttribute="leading" constant="108" id="UxR-kX-cWI"/>
+                                            <constraint firstItem="qHp-OF-QEn" firstAttribute="leading" secondItem="2uy-27-VDh" secondAttribute="leading" constant="128" id="UxR-kX-cWI"/>
                                             <constraint firstItem="AAv-tT-VwO" firstAttribute="top" secondItem="2uy-27-VDh" secondAttribute="top" constant="258" id="XfY-c1-Mza"/>
-                                            <constraint firstItem="AAv-tT-VwO" firstAttribute="top" secondItem="qHp-OF-QEn" secondAttribute="bottom" constant="45" id="YmI-fE-LmI"/>
-                                            <constraint firstItem="qHp-OF-QEn" firstAttribute="top" secondItem="2uy-27-VDh" secondAttribute="top" constant="34" id="dBQ-gG-Obt"/>
+                                            <constraint firstItem="AAv-tT-VwO" firstAttribute="top" secondItem="qHp-OF-QEn" secondAttribute="bottom" constant="47" id="YmI-fE-LmI"/>
+                                            <constraint firstItem="qHp-OF-QEn" firstAttribute="top" secondItem="2uy-27-VDh" secondAttribute="top" constant="72" id="dBQ-gG-Obt"/>
                                             <constraint firstItem="AAv-tT-VwO" firstAttribute="leading" secondItem="2uy-27-VDh" secondAttribute="leading" constant="10" id="dpz-hs-JI6"/>
-                                            <constraint firstAttribute="trailing" secondItem="qHp-OF-QEn" secondAttribute="trailing" constant="108" id="qnc-jQ-XUH"/>
+                                            <constraint firstAttribute="trailing" secondItem="qHp-OF-QEn" secondAttribute="trailing" constant="128" id="qnc-jQ-XUH"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -272,8 +258,20 @@
                     <view key="view" contentMode="scaleToFill" id="VzF-yf-7rY">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dye-gl-icN">
+                                <rect key="frame" x="186" y="437.66666666666669" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Aqm-fA-KP1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="dye-gl-icN" firstAttribute="centerY" secondItem="VzF-yf-7rY" secondAttribute="centerY" id="hTT-zF-4jj"/>
+                            <constraint firstItem="dye-gl-icN" firstAttribute="centerX" secondItem="VzF-yf-7rY" secondAttribute="centerX" id="iNr-rq-PqX"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="fBG-xc-Gen">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="86R-vN-ype">
@@ -284,6 +282,9 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="name" destination="dye-gl-icN" id="hUS-bY-x0n"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MOu-jf-hVV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -338,7 +339,7 @@
             <objects>
                 <navigationController storyboardIdentifier="nav" automaticallyAdjustsScrollViewInsets="NO" id="KHo-ky-hCP" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" backIndicatorImage="chevron.backward" catalog="system" id="Jvc-OQ-zda">
+                    <navigationBar key="navigationBar" alpha="0.0" contentMode="scaleToFill" translucent="NO" backIndicatorImage="chevron.backward.2" catalog="system" id="Jvc-OQ-zda">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -395,9 +396,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Google" width="50" height="50"/>
         <image name="chat" width="40" height="40"/>
-        <image name="chevron.backward" catalog="system" width="96" height="128"/>
+        <image name="chevron.backward.2" catalog="system" width="128" height="105"/>
         <image name="facebook (1)" width="50" height="48"/>
         <image name="messenger" width="500" height="500"/>
         <image name="profile" width="40" height="40"/>
@@ -407,9 +407,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray3Color">
-            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

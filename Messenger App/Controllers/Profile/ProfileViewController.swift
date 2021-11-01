@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import FirebaseAuth
 class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -27,9 +27,16 @@ class ProfileViewController: UIViewController {
     */
 
     @IBAction func LogOut(_ sender: Any) {
-        UserDefaults.standard.removeObject(forKey: "logged_in")
-        let desCV = storyboard?.instantiateViewController(identifier: "nav") as! UINavigationController
-        desCV.modalPresentationStyle = .fullScreen
-        present(desCV, animated: false, completion: nil)
+        
+        do{
+      try  Auth.auth().signOut()
+            let desCV = storyboard?.instantiateViewController(identifier: "nav") as! UINavigationController
+            desCV.modalPresentationStyle = .fullScreen
+            present(desCV, animated: false, completion: nil)
+        }
+        catch{
+            print(error)
+        }
+       
     }
 }

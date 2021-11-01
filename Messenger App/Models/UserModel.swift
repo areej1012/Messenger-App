@@ -9,12 +9,12 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct UserModel : Codable{
+struct UserModel : Codable, Identifiable {
  @DocumentID var id : String?
-    var Email: String?
-    var FirstName: String?
-    var LastName : String?
-    var ImageProfile: String?
+    var Email: String
+    var FirstName: String
+    var LastName : String
+    var ImageProfile: String
     
 
     

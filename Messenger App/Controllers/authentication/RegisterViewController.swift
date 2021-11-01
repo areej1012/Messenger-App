@@ -8,7 +8,8 @@
 import UIKit
 import Firebase
 import FirebaseAuth
-class RegisterViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+import FirebaseFirestoreSwift
+class RegisterViewController: UIViewController {
    @IBOutlet weak var ImageButton: UIButton!
     @IBOutlet weak var errorlbl: UILabel!
     @IBOutlet weak var password: UITextField!
@@ -17,8 +18,9 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var FirstName: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        ImageButton.layer.cornerRadius = ImageButton.frame.width / 2
+        ImageButton.layer.cornerRadius = ImageButton.frame.height / 2
         ImageButton.layer.masksToBounds = true
+        
 
         // Do any additional setup after loading the view.
     }
@@ -67,6 +69,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
         let lastname = LastName.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let email = Email.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let password = password.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+    
             // create new user
             Auth.auth().createUser(withEmail: email, password: password){
                 reuslt, error in
@@ -75,9 +78,11 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
                 }
                 else if let reuslt = reuslt {
                     // store the user in firestore with his info
-                    let newUser = UserModel(id: reuslt.user.uid, Email: reuslt.user.uid, FirstName: firstname, LastName: lastname, ImageProfile: "")
+                    let newUser = UserModel(Email: reuslt.user.email!, FirstName: firstname, LastName: lastname, ImageProfile: "")
+                    
                     do{
-                        let _ = try Firestore.firestore().collection("User").addDocument(from: newUser)
+                        let _ = try Firestore.firestore().collection("User").document(reuslt.user.uid).setData(from: newUser)
+                        UserDefaults.standard.setValue(reuslt.user.uid, forKey: "uid")
                         // Transition to the home screen
                             self.transitionToHome()
                     }
@@ -90,14 +95,13 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
             }
 }
 
-        
-        
 
     }
     
        func transitionToHome() {
            
         UserDefaults.standard.set(true, forKey: "logged_in")
+        UserDefaults.standard.synchronize()
         let des = storyboard?.instantiateViewController(identifier: "Tab") as! UITabBarController
         des.modalPresentationStyle = .fullScreen
         present(des, animated: false, completion: nil)
@@ -153,22 +157,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate,
           present(vc, animated: true)
       }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-           // take a photo or select a photo
-       
-           // action sheet - take photo or choose photo
-           picker.dismiss(animated: true, completion: nil)
-           print(info)
-           
-           guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
-               return
-           }
-        ImageButton.setImage(selectedImage, for: .normal)
-        //self.imag.image = selectedImage
-           
-       }
-       func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-           picker.dismiss(animated: true, completion: nil)
-       }
+    
 
 }
+
