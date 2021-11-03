@@ -32,8 +32,7 @@ class LoginViewController: UIViewController  {
         password.layer.cornerRadius = 12
         password.layer.borderWidth = 2
         password.layer.borderColor = UIColor.lightGray.cgColor
-        
-        
+        password.enablePasswordToggle()
                 
     }
 
@@ -50,18 +49,38 @@ class LoginViewController: UIViewController  {
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { authResult, error in
             guard let result = authResult, error == nil else {
                 print("Failed to log in user with email \(email)")
+                self.error.text = "The eamil is wrong or you're not register"
                 return
             }
             let user = result.user
+            UserDefaults.standard.setValue(user.uid, forKey: "uid")
+           
+            Firestore.firestore().collection("User").document(user.uid).getDocument(completion: { snapshot , error in
+              
+                do {
+                let newuser = try snapshot?.data(as: UserModel.self)
+                    guard let first = newuser?.FirstName , let last = newuser?.LastName else{
+                        return
+                    }
+                    var name : String
+                    name = "\(first) \(last)"
+                  
+                    UserDefaults.standard.setValue(name, forKey: "name")
+                }
+                catch{
+                print("error in firestore")
+                }
+                
+            })
+           
+            
+            UserDefaults.standard.synchronize()
             print("user \(user)")
             self.dismiss(animated: false, completion: nil)
            
         })
 
  
-       
-        
-        
         
     }
     
@@ -100,6 +119,10 @@ class LoginViewController: UIViewController  {
                             
                         }
                         DatabaseManger.shared.insertUser(with: ChatAppUser(firstName: user.user.displayName!, lastName: "", emailAddress: user.user.email!))
+                        UserDefaults.standard.setValue(user.user.uid, forKey: "uid")
+                        UserDefaults.standard.setValue(user.user.displayName, forKey: "name")
+                        print(UserDefaults.standard.string(forKey: "name"))
+                        UserDefaults.standard.synchronize()
                     })
                     self.dismiss(animated: false, completion: nil)
 

@@ -49,3 +49,24 @@ class DesignableUITextField: UITextField {
         attributedPlaceholder = NSAttributedString(string: placeholder != nil ?  placeholder! : "", attributes:[NSAttributedString.Key.foregroundColor: color])
     }
 }
+
+let button = UIButton(type: .custom)
+
+extension UITextField {
+    
+    func enablePasswordToggle(){
+        
+        button.setImage(UIImage(named: "open"), for: .normal)
+        button.setImage(UIImage(named: "close"), for: .selected)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -12, bottom: 0, right: 10)
+        button.addTarget(self, action: #selector(togglePasswordView), for: .touchUpInside)
+        rightView = button
+        rightViewMode = .always
+        button.alpha = 0.4
+    }
+    
+    @objc func togglePasswordView(_ sender: Any) {
+        isSecureTextEntry.toggle()
+        button.isSelected.toggle()
+    }
+}

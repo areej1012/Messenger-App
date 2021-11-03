@@ -33,6 +33,7 @@ class RegisterViewController: UIViewController {
         password.layer.cornerRadius = 12
         password.layer.borderWidth = 2
         password.layer.borderColor = UIColor.lightGray.cgColor
+       // password.enablePasswordToggle()
         // Do any additional setup after loading the view.
     }
 
@@ -98,7 +99,10 @@ class RegisterViewController: UIViewController {
                         //create database for the user
                         
                         DatabaseManger.shared.insertUser(with: ChatAppUser(firstName: newUser.FirstName, lastName: newUser.LastName, emailAddress: newUser.Email))
-                       
+                        UserDefaults.standard.setValue(reuslt.user.uid, forKey: "uid")
+                        let name = "\(firstname) \(lastname)"
+                        UserDefaults.standard.setValue(name, forKey: "name")
+                        UserDefaults.standard.synchronize()
                         // Transition to the home screen
                             self.transitionToHome()
                     }

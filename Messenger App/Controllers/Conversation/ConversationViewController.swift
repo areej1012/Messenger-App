@@ -11,33 +11,97 @@ import FirebaseDatabase
 
 class ConversationViewController: UIViewController {
 
-    @IBOutlet weak var name: UILabel!
-    var user : UserModel?
+    
+
+    @IBOutlet weak var tableview: UITableView!
+    var conversation = [Conversation]()
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        tableview.delegate = self
+        tableview.dataSource = self
+      
         // Do any additional setup after loading the view.
+        validateAuth()
+        fetchConversations()
+       
     }
     override func viewDidAppear(_ animated: Bool) {
            super.viewDidAppear(animated)
-          getDate()
-   
+           
+          StartlistenForCoverstion()
         
        }
-    
+    override func viewDidLayoutSubviews() {
+           super.viewDidLayoutSubviews()
+           tableview.frame = view.bounds
+       }
 
-    func getDate(){
-        print( "uid \(Auth.auth().currentUser?.uid)")
+    
+    func StartlistenForCoverstion() {
+        guard let uid = UserDefaults.standard.string(forKey: "uid") else {
+            return
+        }
+        
+        DatabaseManger.shared.getAllConversations(for: uid, completion: { [weak self] result in
+            switch result{
+            case .success(let cov):
+                guard !cov.isEmpty else {
+                    print("there is no con")
+                    self!.tableview.isHidden = true
+                    return
+                }
+                
+                self?.conversation = cov
+                
+                DispatchQueue.main.async {
+                    self?.tableview.reloadData()
+                }
+            case .failure(let error):
+                self!.tableview.isHidden = true
+                debugPrint(error)
+            }
+            
+        })
+    }
+    func validateAuth(){
+      
        if Auth.auth().currentUser?.uid == nil{
         let desCV = storyboard?.instantiateViewController(identifier: "nav") as! UINavigationController
                     desCV.modalPresentationStyle = .fullScreen
                     present(desCV, animated: false, completion: nil)
         }
-    
-            
-       
        
     }
+    private func fetchConversations(){
+           // fetch from firebase and either show table or label
+           
+           tableview.isHidden = false
+       }
+    
+    
+    @IBAction func didTapComposeButton(_ sender: UIBarButtonItem) {
+        let vc = NewConversationViewController()
+        vc.completion = { [weak self] result in
+            print("\(result)")
+            self?.createNewConversation(result: result)
+        }
+        let navVC = UINavigationController(rootViewController: vc)
+        present(navVC,animated: true)
+        tableview.isHidden = false
+
+    }
+    
+    func createNewConversation(result : [String: String]){
+        guard let name = result["name"], let email = result["email"] , let uid = result["uid"] else {
+            return
+        }
+        let vc = ChatViewController(uid: uid, id:nil)
+        vc.title = name
+        vc.isNewConversation = true
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     /*
     // MARK: - Navigation
 
