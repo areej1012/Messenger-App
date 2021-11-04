@@ -38,7 +38,7 @@ extension DatabaseManger {
            }
        }
          // Insert new user to database
-    public func insertUser(with user: ChatAppUser){
+    public func insertUser(with user: ChatAppUser, completion: @escaping (Bool) -> Void){
         database.child(user.Uid).setValue(["first_name":user.firstName,"last_name":user.lastName, "email": user.emailAddress])
             database.child("users").observeSingleEvent(of: .value, with: { snapchat in
             if var userCollection = snapchat.value as? [[String : String]]{
@@ -50,9 +50,10 @@ extension DatabaseManger {
                 self.database.child("users").setValue(userCollection, withCompletionBlock: {
                     error, _ in
                     guard error == nil else{
+                        completion(false)
                         return
                     }
-                   
+                   completion(true)
                 })
             }
             else{
@@ -65,9 +66,10 @@ extension DatabaseManger {
                 self.database.child("users").setValue(newCollection, withCompletionBlock: {
                     error, _ in
                     guard error == nil else{
+                        completion(false)
                         return
                     }
-                   
+                   completion(true)
                 })
             }
             
@@ -210,10 +212,11 @@ extension DatabaseManger {
     }
     
     public func getAllConversations(for uid: String, completion: @escaping (Result<[Conversation], Error>) -> Void) {
-        
+        print("\(uid)/conversations")
         database.child("\(uid)/conversations").observe(.value, with: {sanpshot in
            
             guard let value = sanpshot.value as? [[String:Any]] else {
+                print("there is issue")
                 completion(.failure(errorDatabase.failedTofech))
                            return
                        }
@@ -420,6 +423,10 @@ extension DatabaseManger {
             var safeEmail = emailAddress.replacingOccurrences(of: ".", with: "-")
             safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
             return safeEmail
+        }
+        
+        var ProfilePictureName : String {
+            return "\(Uid)_profile_picture.png"
         }
     }
 

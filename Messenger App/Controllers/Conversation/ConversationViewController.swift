@@ -15,6 +15,7 @@ class ConversationViewController: UIViewController {
 
     @IBOutlet weak var tableview: UITableView!
     var conversation = [Conversation]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableview.delegate = self
@@ -23,12 +24,18 @@ class ConversationViewController: UIViewController {
         // Do any additional setup after loading the view.
         validateAuth()
         fetchConversations()
+        print("ViewdidLoad")
+        StartlistenForCoverstion()
+        
+       
        
     }
     override func viewDidAppear(_ animated: Bool) {
            super.viewDidAppear(animated)
-           
-          StartlistenForCoverstion()
+        print("viewdidAppear")
+        
+            
+          
         
        }
     override func viewDidLayoutSubviews() {
@@ -38,6 +45,7 @@ class ConversationViewController: UIViewController {
 
     
     func StartlistenForCoverstion() {
+       
         guard let uid = UserDefaults.standard.string(forKey: "uid") else {
             return
         }
@@ -46,11 +54,11 @@ class ConversationViewController: UIViewController {
             switch result{
             case .success(let cov):
                 guard !cov.isEmpty else {
-                    print("there is no con")
+                  
                     self!.tableview.isHidden = true
                     return
                 }
-                
+                print("cover")
                 self?.conversation = cov
                 
                 DispatchQueue.main.async {

@@ -21,7 +21,10 @@ extension RegisterViewController : UIImagePickerControllerDelegate, UINavigation
            guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
                return
            }
+      
         ImageButton.setImage(selectedImage, for: .normal)
+        ImageButton.imageView?.layer.cornerRadius = ImageButton.frame.height / 2
+        ImageButton.imageView?.layer.borderWidth = 1
         
            
        }
@@ -40,8 +43,6 @@ extension ConversationViewController : UITableViewDataSource, UITableViewDelegat
         let model = conversation[indexPath.row]
         cell.configure(with: model)
         
-       
-                
         return cell
     }
     
@@ -219,5 +220,33 @@ extension NewConversationViewController : UITableViewDelegate , UITableViewDataS
     }
     
 }
+
+
+extension ProfileViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+           // take a photo or select a photo
+       
+           // action sheet - take photo or choose photo
+           picker.dismiss(animated: true, completion: nil)
+           print(info)
+           
+           guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+               return
+           }
+        
+        imageButton.setImage(selectedImage, for: .normal)
+        imageButton.imageView?.layer.cornerRadius = imageButton.frame.height / 2
+        imageButton.imageView?.layer.borderWidth = 1
+        
+      
+        
+           
+       }
+       func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+           picker.dismiss(animated: true, completion: nil)
+       }
+}
+
 
 

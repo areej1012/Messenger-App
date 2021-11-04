@@ -18,8 +18,7 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var FirstName: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        ImageButton.imageView?.layer.cornerRadius = ImageButton.imageView!.frame.width / 2 
-        ImageButton.layer.masksToBounds = true
+     
         
         Email.layer.cornerRadius = 12
         Email.layer.borderWidth = 2
@@ -97,8 +96,27 @@ class RegisterViewController: UIViewController {
                     do{
                         let _ = try Firestore.firestore().collection("User").document(reuslt.user.uid).setData(from: newUser)
                         //create database for the user
-                        
-                        DatabaseManger.shared.insertUser(with: ChatAppUser(firstName: newUser.FirstName, lastName: newUser.LastName, emailAddress: newUser.Email))
+                        let chatuser = ChatAppUser(firstName: newUser.FirstName, lastName: newUser.LastName, emailAddress: newUser.Email)
+                        DatabaseManger.shared.insertUser(with: chatuser, completion: { succses in
+                            if succses{
+                                guard let data = self.ImageButton.imageView?.image?.pngData()  else {
+                                    return
+                                }
+                                let filemame = chatuser.ProfilePictureName
+                                StorageManager.shared.uploadProfilePicture(with: data, fileName: filemame, completion: {
+                                    rsult in
+                                    switch rsult {
+                                    case .failure(let error):
+                                        print("storg \(error)")
+                                    case .success(let url):
+                                        UserDefaults.standard.set(url, forKey: "urlProfile")
+                                        print(url)
+                                    }
+                                })
+                                
+                            }
+                            
+                        })
                         UserDefaults.standard.setValue(reuslt.user.uid, forKey: "uid")
                         let name = "\(firstname) \(lastname)"
                         UserDefaults.standard.setValue(name, forKey: "name")

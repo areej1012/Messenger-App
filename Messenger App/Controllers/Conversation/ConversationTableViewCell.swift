@@ -28,6 +28,24 @@ class ConversationTableViewCell: UITableViewCell {
     func configure( with model : Conversation){
         self.lastMessage.text = model.latestMessage.text
         self.name.text = model.name
+       
+        
+        let filename = "\(model.otherUserUid)_profile_picture.png"
+        let path = "images/"+filename
+        StorageManager.shared.downloadURL(for: path, completion: {
+            [weak self ] result in
+            switch result{
+            case.failure(let error):
+                print("can't download \(error)")
+            case .success(let url):
+                DispatchQueue.main.async {
+                    self?.imageProfile.sd_setImage(with: url, completed: nil)
+                    self!.imageProfile.layer.cornerRadius = 20.0 //self!.imageProfile.frame.height / 2
+
+                }
+            }
+            
+        })
         
     }
 }

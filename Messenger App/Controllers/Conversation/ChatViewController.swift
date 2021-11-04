@@ -38,9 +38,7 @@ class ChatViewController:  MessagesViewController  {
         self.conversationId = id
         self.otherUserUid = uid
         super.init(nibName: nil, bundle: nil)
-        if let conversationId = conversationId {
-            listenForMessages(id:conversationId)
-        }
+      
     }
     
     required init?(coder: NSCoder) {
@@ -63,7 +61,9 @@ class ChatViewController:  MessagesViewController  {
     override func viewDidAppear(_ animated: Bool) {
            super.viewDidAppear(animated)
            messageInputBar.inputTextView.becomeFirstResponder()
-        
+        if let conversationId = conversationId {
+            listenForMessages(id:conversationId)
+        }
          
        }
     private func listenForMessages(id: String) {

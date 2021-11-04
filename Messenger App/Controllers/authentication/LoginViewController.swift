@@ -66,6 +66,7 @@ class LoginViewController: UIViewController  {
                     name = "\(first) \(last)"
                   
                     UserDefaults.standard.setValue(name, forKey: "name")
+                    print("name \(UserDefaults.standard.string(forKey: "uid"))")
                 }
                 catch{
                 print("error in firestore")
@@ -118,7 +119,12 @@ class LoginViewController: UIViewController  {
                             return
                             
                         }
-                        DatabaseManger.shared.insertUser(with: ChatAppUser(firstName: user.user.displayName!, lastName: "", emailAddress: user.user.email!))
+                        let chatuser = ChatAppUser(firstName: user.user.displayName!, lastName: "", emailAddress: user.user.email!)
+                        DatabaseManger.shared.insertUser(with: chatuser, completion: {
+                            success in
+                            
+                            
+                        } )
                         UserDefaults.standard.setValue(user.user.uid, forKey: "uid")
                         UserDefaults.standard.setValue(user.user.displayName, forKey: "name")
                         print(UserDefaults.standard.string(forKey: "name"))
