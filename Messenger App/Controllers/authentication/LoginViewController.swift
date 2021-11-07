@@ -66,7 +66,7 @@ class LoginViewController: UIViewController  {
                     name = "\(first) \(last)"
                   
                     UserDefaults.standard.setValue(name, forKey: "name")
-                    print("name \(UserDefaults.standard.string(forKey: "uid"))")
+                   
                 }
                 catch{
                 print("error in firestore")
@@ -76,9 +76,9 @@ class LoginViewController: UIViewController  {
            
             
             UserDefaults.standard.synchronize()
-            print("user \(user)")
-            self.dismiss(animated: false, completion: nil)
-           
+            let desCV = self.storyboard?.instantiateViewController(identifier: "Tab") as! UITabBarController
+            desCV.modalPresentationStyle = .fullScreen
+            self.present(desCV, animated: false, completion: nil)
         })
 
  
@@ -112,25 +112,54 @@ class LoginViewController: UIViewController  {
                             return
                         }
                 if let user = user {
+                   
+                    guard  let url = user.user.photoURL?.absoluteString else {
+                        return
+                    }
+                    let urlPhotoe = "\(url)?height=500"
                     DatabaseManger.shared.userExists(with: user.user.uid, completion: { [weak self]
                         exists in
-                        guard !exists else {
+                        guard !exists  else {
                             //is exists
+                            
                             return
                             
                         }
                         let chatuser = ChatAppUser(firstName: user.user.displayName!, lastName: "", emailAddress: user.user.email!)
                         DatabaseManger.shared.insertUser(with: chatuser, completion: {
                             success in
+                            do {
                             
+                                let image: UIImage = try UIImage(data: Data(contentsOf: URL(string: urlPhotoe)!))!
+                                guard let data = image.pngData() else {
+                                    return
+                                }
+                                let filemame = chatuser.ProfilePictureName
+                                StorageManager.shared.uploadProfilePicture(with: data, fileName: filemame, completion: {
+                                    rsult in
+                                    switch rsult {
+                                    case .failure(let error):
+                                        print("storg \(error)")
+                                    case .success(let url):
+                                        UserDefaults.standard.set(url, forKey: "urlProfile")
+                                        print(url)
+                                    }
+                                })
+                                   
+                               } catch {
+                                   print(error)
+                               }
                             
                         } )
                         UserDefaults.standard.setValue(user.user.uid, forKey: "uid")
+                        print("uid \(UserDefaults.standard.string(forKey: "uid"))")
                         UserDefaults.standard.setValue(user.user.displayName, forKey: "name")
-                        print(UserDefaults.standard.string(forKey: "name"))
+                    
                         UserDefaults.standard.synchronize()
                     })
-                    self.dismiss(animated: false, completion: nil)
+                    let desCV = self.storyboard?.instantiateViewController(identifier: "Tab") as! UITabBarController
+                    desCV.modalPresentationStyle = .fullScreen
+                    self.present(desCV, animated: false, completion: nil)
 
                 }
         })

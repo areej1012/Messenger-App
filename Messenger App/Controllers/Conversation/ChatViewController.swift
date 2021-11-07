@@ -12,9 +12,11 @@ class ChatViewController:  MessagesViewController  {
    
     
     public let otherUserUid: String
-    public let conversationId: String?
+    public var conversationId: String?
     public var isNewConversation = false
     
+    var senderPhotoe : URL?
+    var otherPhote : URL?
     var messages = [Message]()
     var selfSender : Sender? {
         guard let uid =  UserDefaults.standard.string(forKey: "uid") , let name = UserDefaults.standard.string(forKey: "name") else {
@@ -54,6 +56,7 @@ class ChatViewController:  MessagesViewController  {
        messagesCollectionView.messagesLayoutDelegate = self
        messagesCollectionView.messagesDisplayDelegate = self
        messageInputBar.delegate = self
+
        
              
    }
@@ -62,11 +65,12 @@ class ChatViewController:  MessagesViewController  {
            super.viewDidAppear(animated)
            messageInputBar.inputTextView.becomeFirstResponder()
         if let conversationId = conversationId {
-            listenForMessages(id:conversationId)
+            listenForMessages(id:conversationId, shouldScrollToBottom: true)
         }
+
          
        }
-    private func listenForMessages(id: String) {
+     func listenForMessages(id: String,  shouldScrollToBottom: Bool) {
         
         DatabaseManger.shared.getAllMessagesForConversation(with: id, completion: { [weak self] result in
             switch result {

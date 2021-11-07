@@ -41,6 +41,7 @@ extension ConversationViewController : UITableViewDataSource, UITableViewDelegat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableview.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ConversationTableViewCell
         let model = conversation[indexPath.row]
+    
         cell.configure(with: model)
         
         return cell
@@ -50,11 +51,19 @@ extension ConversationViewController : UITableViewDataSource, UITableViewDelegat
        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
            tableView.deselectRow(at: indexPath, animated: true)
            let user = conversation[indexPath.row]
-           let vc =   ChatViewController(uid: user.otherUserUid,id: user.id)
-           vc.title = user.name
-           vc.navigationItem.largeTitleDisplayMode = .never
-           navigationController?.pushViewController(vc, animated: true)
+         OpenConvsertion(user)
        }
+    func OpenConvsertion(_ user :Conversation){
+        
+        let vc =   ChatViewController(uid: user.otherUserUid,id: user.id)
+        vc.title = user.name
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
+    }
     
 }
 
@@ -77,6 +86,67 @@ extension ChatViewController : MessagesDataSource, MessagesLayoutDelegate, Messa
         messages.count
     }
     
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        let sender = message.sender
+        
+        if sender.senderId == selfSender?.senderId{
+            // show the sender photoe
+            if let currentUserImage = self.senderPhotoe{
+                avatarView.sd_setImage(with: currentUserImage, completed: nil)
+                
+            }
+            else{
+                // fetch url
+                
+                guard let senderUid = UserDefaults.standard.string(forKey: "uid") else {
+                    
+                    return
+                }
+               
+                let filename = "\(senderUid)_profile_picture.png"
+                let path = "images/"+filename
+                
+                StorageManager.shared.downloadURL(for: path, completion: { [weak self]
+                    result in
+                    switch result {
+                    case .failure(let error):
+                       print(error)
+                    case .success(let url):
+                        self?.senderPhotoe = url
+                        DispatchQueue.main.async {
+                            avatarView.sd_setImage(with: url, completed: nil)
+                        }
+                    }
+                })
+            }
+        }
+        else{
+            // show the other user photoe
+            if let currentUserImage = self.otherPhote{
+                avatarView.sd_setImage(with: currentUserImage, completed: nil)
+            }
+            else{
+                // fetch url
+                print("other uid")
+                print(otherUserUid)
+                let filename = "\(otherUserUid)_profile_picture.png"
+                let path = "images/"+filename
+                
+                StorageManager.shared.downloadURL(for: path, completion: { [weak self]
+                    result in
+                    switch result {
+                    case .failure(let error):
+                       print(error)
+                    case .success(let url):
+                        self?.otherPhote = url
+                        DispatchQueue.main.async {
+                            avatarView.sd_setImage(with: url, completed: nil)
+                        }
+                    }
+                })
+            }
+        }
+    }
     
 }
 
@@ -87,7 +157,7 @@ extension ChatViewController : InputBarAccessoryViewDelegate {
                return
            }
            
-           print("sending \(text)")
+          print("sending \(text)")
           let message = Message(sender:sender, messageId: messageId, sentDate: Date(), kind: .text(text))
 
         if isNewConversation {
@@ -98,6 +168,10 @@ extension ChatViewController : InputBarAccessoryViewDelegate {
                     if success {
                         print("message sent")
                         self?.isNewConversation = false
+                        let NewconversationId = "conversation_\(message.messageId)"
+                        self?.conversationId = NewconversationId
+                        self?.listenForMessages(id: NewconversationId, shouldScrollToBottom: true)
+                        self?.messageInputBar.inputTextView.text = nil
                     }else{
                         print("failed to send")
                     }
@@ -108,9 +182,10 @@ extension ChatViewController : InputBarAccessoryViewDelegate {
             guard let  ConversationID =  conversationId , let name = self.title else {
                 return
             }
-            DatabaseManger.shared.sendMessage(to: ConversationID, name: name, newMessage: message, completion: {
+            DatabaseManger.shared.sendMessage(to: ConversationID, otherUserUid: otherUserUid ,name: name, newMessage: message, completion: { [weak self]
                 succes in
                 if succes {
+                    self?.messageInputBar.inputTextView.text = nil
                     print("send success")
                 }
                 else{
@@ -246,6 +321,10 @@ extension ProfileViewController : UIImagePickerControllerDelegate, UINavigationC
        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
            picker.dismiss(animated: true, completion: nil)
        }
+}
+
+extension Notification.Name{
+    static let DidLogInNotification = Notification.Name("DidLogInNotification")
 }
 
 

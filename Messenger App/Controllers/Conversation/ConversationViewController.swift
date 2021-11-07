@@ -12,37 +12,50 @@ import FirebaseDatabase
 class ConversationViewController: UIViewController {
 
     
-
+    @IBOutlet weak var NoConverstion: UILabel!
     @IBOutlet weak var tableview: UITableView!
     var conversation = [Conversation]()
-    
+    var logInObserver: NSObjectProtocol?
     override func viewDidLoad() {
         super.viewDidLoad()
         tableview.delegate = self
         tableview.dataSource = self
-      
+        tableview.layer.cornerRadius = 35
+        tableview.clipsToBounds = true
+        tableview.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+     
         // Do any additional setup after loading the view.
         validateAuth()
         fetchConversations()
-        print("ViewdidLoad")
         StartlistenForCoverstion()
         
-       
+        logInObserver = NotificationCenter.default.addObserver(forName: .DidLogInNotification, object: nil, queue: .main, using: {
+            [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.StartlistenForCoverstion()
+        })
        
     }
     override func viewDidAppear(_ animated: Bool) {
            super.viewDidAppear(animated)
-        print("viewdidAppear")
-        
-            
-          
-        
+        logInObserver = NotificationCenter.default.addObserver(forName: .DidLogInNotification, object: nil, queue: .main, using: {
+            [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.StartlistenForCoverstion()
+        })
+
        }
     override func viewDidLayoutSubviews() {
            super.viewDidLayoutSubviews()
            tableview.frame = view.bounds
        }
-
+    override func viewWillAppear(_ animated: Bool) {
+       
+    }
     
     func StartlistenForCoverstion() {
        
@@ -50,22 +63,28 @@ class ConversationViewController: UIViewController {
             return
         }
         
+        if let observer = logInObserver{
+            NotificationCenter.default.removeObserver(observer)
+        }
         DatabaseManger.shared.getAllConversations(for: uid, completion: { [weak self] result in
             switch result{
             case .success(let cov):
                 guard !cov.isEmpty else {
-                  
-                    self!.tableview.isHidden = true
+                 
+                    self?.NoConverstion.isHidden = false
+                    print("there is no cinv")
                     return
                 }
                 print("cover")
                 self?.conversation = cov
-                
+              
+                self?.NoConverstion.isHidden = true
                 DispatchQueue.main.async {
                     self?.tableview.reloadData()
                 }
             case .failure(let error):
-                self!.tableview.isHidden = true
+              
+                self?.NoConverstion.isHidden = false
                 debugPrint(error)
             }
             
@@ -82,16 +101,20 @@ class ConversationViewController: UIViewController {
     }
     private func fetchConversations(){
            // fetch from firebase and either show table or label
-           
-           tableview.isHidden = false
+        tableview.isHidden = false
+      
        }
     
     
     @IBAction func didTapComposeButton(_ sender: UIBarButtonItem) {
         let vc = NewConversationViewController()
         vc.completion = { [weak self] result in
-            print("\(result)")
-            self?.createNewConversation(result: result)
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.createNewConversation(result: result)
+            
+        
         }
         let navVC = UINavigationController(rootViewController: vc)
         present(navVC,animated: true)
@@ -100,7 +123,7 @@ class ConversationViewController: UIViewController {
     }
     
     func createNewConversation(result : [String: String]){
-        guard let name = result["name"], let email = result["email"] , let uid = result["uid"] else {
+        guard let name = result["name"],  let uid = result["uid"] else {
             return
         }
         let vc = ChatViewController(uid: uid, id:nil)

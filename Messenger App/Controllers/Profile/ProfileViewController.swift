@@ -10,20 +10,25 @@ import FirebaseAuth
 class ProfileViewController: UIViewController {
 
     @IBOutlet weak var nameUser: UILabel!
+    @IBOutlet weak var ViewProfile: UIView!
     @IBOutlet weak var imageButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        guard let name  = UserDefaults.standard.string(forKey: "name") else { return  }
+        nameUser.text = name
+        print("name in profile \(name)")
+        ViewProfile.layer.cornerRadius = 35
+        ViewProfile.clipsToBounds = true
+      
+        ViewProfile.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+        SetImageProfile()
       
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard let name  = UserDefaults.standard.string(forKey: "name") else { return  }
-        nameUser.text = name
-        print("name in profile \(name)")
-        
         SetImageProfile()
+       
     }
     
     func SetImageProfile(){
@@ -49,10 +54,12 @@ class ProfileViewController: UIViewController {
         URLSession.shared.dataTask(with: url, completionHandler: {
             [weak self] data, _, error in
             guard let data = data , error == nil else{
+                print("imagen il")
                 return
             }
             DispatchQueue.main.async {
                 let image = UIImage(data: data)
+         
                 self!.imageButton.setImage(image, for: .normal)
                 self!.imageButton.imageView?.layer.cornerRadius = self!.imageButton.frame.height / 2
                 self!.imageButton.imageView?.layer.borderWidth = 1
@@ -91,49 +98,6 @@ class ProfileViewController: UIViewController {
        
     }
     
-    
-    
-    @IBAction func SaveImage(_ sender: UIButton) {
-        presentPhotoActionSheet()
-    }
-    
-    func presentPhotoActionSheet(){
-         let actionSheet = UIAlertController(title: "Profile Picture", message: "How would you like to select a picture?", preferredStyle: .actionSheet)
-         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-         actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { [weak self] _ in
-             self?.presentCamera()
-         }))
-         actionSheet.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { [weak self] _ in
-             self?.presentPhotoPicker()
-         }))
-         
-         present(actionSheet, animated: true)
-     }
-    
-    
-    func presentCamera() {
-          let imagePicker = UIImagePickerController()
-          if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera))
-          {
-              imagePicker.sourceType = UIImagePickerController.SourceType.camera
-              imagePicker.allowsEditing = true
-              self.present(imagePicker, animated: true, completion: nil)
-          }
-          else
-          {
-              let alert  = UIAlertController(title: "Warning", message: "You don't have camera", preferredStyle: .alert)
-              alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-              self.present(alert, animated: true, completion: nil)
-          }
-      }
-    
-      func presentPhotoPicker() {
-          let vc = UIImagePickerController()
-          vc.sourceType = .photoLibrary
-          vc.delegate = self
-          vc.allowsEditing = true
-          present(vc, animated: true)
-      }
     
     
 

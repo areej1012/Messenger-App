@@ -35,6 +35,7 @@
 	<string>2ff4f1ef867a1ef550846a7876d54b19</string>
 	<key>FacebookDisplayName</key>
 	<string>Messnger</string>
+    
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

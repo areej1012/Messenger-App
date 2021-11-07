@@ -32,7 +32,7 @@ class RegisterViewController: UIViewController {
         password.layer.cornerRadius = 12
         password.layer.borderWidth = 2
         password.layer.borderColor = UIColor.lightGray.cgColor
-       // password.enablePasswordToggle()
+        
         // Do any additional setup after loading the view.
     }
 
